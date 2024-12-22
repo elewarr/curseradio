@@ -60,7 +60,8 @@ class OPMLNode:
         is currently discarded).
         """
         if attr is None: attr = {}
-        tree = lxml.etree.parse(url)
+        parser = lxml.etree.XMLParser(dtd_validation=False, no_network=False)
+        tree = lxml.etree.parse(url, parser=parser)
         result = cls(text=text, attr=attr)
         result.children = [OPMLNode.from_element(o)
                            for o in tree.xpath('/opml/body/outline')]
